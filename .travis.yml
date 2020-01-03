@@ -10,16 +10,16 @@ services:
 #     - docker run -e CI=true hnaseem/react-test npm test
 
 after_success:
-    - docker build -t hnaseem/multi-client ./client
-    - docker build -t hnaseem/multi-nginx ./nginx
-    - docker build -t hnaseem/multi-server ./server
-    - docker build -t hnaseem/multi-worker ./worker
+    - docker build -t hdawg5000/multi-client ./client
+    - docker build -t hdawg5000/multi-nginx ./nginx
+    - docker build -t hdawg5000/multi-server ./server
+    - docker build -t hdawg5000/multi-worker ./worker
 
     # Log in to Docker CLI
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
     # Take images and push them to Docker Hub
-    - docker push hnaseem/multi-client
-    - docker push hnaseem/multi-nginx
-    - docker push hnaseem/multi-server
-    - docker push hnaseem/multi-worker
+    - docker push hdawg5000/multi-client
+    - docker push hdawg5000/multi-nginx
+    - docker push hdawg5000/multi-server
+    - docker push hdawg5000/multi-worker

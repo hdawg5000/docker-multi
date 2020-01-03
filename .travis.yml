@@ -1,0 +1,24 @@
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t hnaseem/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run hnaseem/react-test npm test -- --coverage
+
+after_success:
+    - docker build -t hnaseem/multi-client ./client
+    - docker build -t hnaseem/multi-nginx ./nginx
+    - docker build -t hnaseem/multi-server ./server
+    - docker build -t hnaseem/multi-worker ./worker
+
+    # Log in to Docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+    # Take images and push them to Docker Hub
+    - docker push hnaseem/multi-client
+    - docker push hnaseem/multi-nginx
+    - docker push hnaseem/multi-server
+    - docker push hnaseem/multi-worker
